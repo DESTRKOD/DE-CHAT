@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DE-CHAT - Профиль</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #001B44, #003B73);
+            color: white;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 40px 35px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 60px rgba(0, 191, 255, 0.05);
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 28px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            color: white;
+            transform: translateX(-4px);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            border: 3px solid rgba(0, 191, 255, 0.3);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .profile-avatar:hover {
+            border-color: rgba(0, 191, 255, 0.6);
+            transform: scale(1.02);
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-avatar .edit-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 8px;
+            text-align: center;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-avatar:hover .edit-overlay {
+            transform: translateY(0);
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00BFFF, #00E5FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .profile-username {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .profile-status {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 16px;
+            background: rgba(74, 222, 128, 0.15);
+            border-radius: 20px;
+            font-size: 13px;
+            color: #4ade80;
+            border: 1px solid rgba(74, 222, 128, 0.15);
+        }
+
+        .settings-section {
+            margin-top: 28px;
+        }
+
+        .settings-section h3 {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .settings-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 14px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .settings-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.05);
+            transform: translateX(4px);
+        }
+
+        .settings-item-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .settings-item-left .icon {
+            font-size: 20px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .settings-item-left .info .label {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .settings-item-left .info .description {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .settings-item .arrow {
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 18px;
+        }
+
+        .theme-options {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .theme-option {
+            flex: 1;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-option:hover {
+            border-color: rgba(0, 191, 255, 0.3);
+        }
+
+        .theme-option.active {
+            border-color: #00BFFF;
+            background: rgba(0, 191, 255, 0.05);
+        }
+
+        .theme-option .color-preview {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin: 0 auto 8px;
+        }
+
+        .theme-option .name {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.06);
+            margin: 24px 0;
+        }
+
+        .danger-btn {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.15);
+            border-radius: 14px;
+            color: #ff6b6b;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+        }
+
+        .danger-btn:hover {
+            background: rgba(255, 0, 0, 0.15);
+            border-color: rgba(255, 0, 0, 0.3);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #001B44, #002B5C);
+            border-radius: 30px;
+            padding: 35px;
+            max-width: 420px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-content h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .modal-content p {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .modal-content input:focus {
+            border-color: rgba(0, 191, 255, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-actions .cancel {
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .modal-actions .cancel:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-actions .save {
+            background: linear-gradient(135deg, #00BFFF, #00E5FF);
+            color: #001B44;
+        }
+
+        .modal-actions .save:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(0, 191, 255, 0.3);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 14px 28px;
+            background: rgba(0, 191, 255, 0.15);
+            border: 1px solid rgba(0, 191, 255, 0.2);
+            border-radius: 16px;
+            color: white;
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+            animation: slideUp 0.5s ease-out;
+            z-index: 200;
+            display: none;
+        }
+
+        .toast.show {
+            display: block;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px 20px;
+            }
+
+            .profile-avatar {
+                width: 90px;
+                height: 90px;
+            }
+
+            .settings-item {
+                padding: 12px 14px;
+            }
+
+            .modal-content {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="back-btn" onclick="location.href='main.html'">← Назад</button>
+
+        <div class="profile-header">
+            <div class="profile-avatar" onclick="changeAvatar()">
+                <img src="https://i.pravatar.cc/150?img=11" alt="Avatar" id="profileAvatar">
+                <div class="edit-overlay">📷 Изменить</div>
+            </div>
+            <div class="profile-name" id="profileName">John Doe</div>
+            <div class="profile-username" id="profileUsername">@johndoe</div>
+            <div class="profile-status">🟢 Online</div>
+        </div>
+
+        <div class="settings-section">
+            <h3>Аккаунт</h3>
+            <div class="settings-item" onclick="openModal('name')">
+                <div class="settings-item-left">
+                    <div class="icon">👤</div>
+                    <div class="info">
+                        <div class="label">Имя пользователя</div>
+                        <div class="description" id="displayName">John Doe</div>
+                    </div>
+                </div>
+                <div class="arrow">›</div>
+            </div>
+            <div class="settings-item" onclick="openModal('email')">
+                <div class="settings-item-left">
+                    <div class="icon">📧</div>
+                    <div class="info">
+                        <div class="label">Email</div>
+                        <div class="description" id="displayEmail">john@example.com</div>
+                    </div>
+                </div>
+                <div class="arrow">›</div>
+            </div>
+            <div class="settings-item" onclick="openModal('password')">
+                <div class="settings-item-left">
+                    <div class="icon">🔒</div>
+                    <div class="info">
+                        <div class="label">Пароль</div>
+                        <div class="description">••••••••</div>
+                    </div>
+                </div>
+                <div class="arrow">›</div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="settings-section">
+            <h3>Настройки</h3>
+            <div class="settings-item">
+                <div class="settings-item-left">
+                    <div class="icon">🔔</div>
+                    <div class="info">
+                        <div class="label">Уведомления</div>
+                        <div class="description">Включены</div>
+                    </div>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="settings-item">
+                <div class="settings-item-left">
+                    <div class="icon">🔊</div>
+                    <div class="info">
+                        <div class="label">Звук сообщений</div>
+                        <div class="description">Включен</div>
+                    </div>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="settings-section">
+            <h3>Внешний вид</h3>
+            <div class="theme-options">
+                <div class="theme-option active" onclick="selectTheme(this, 'midnight')">
+                    <div class="color-preview" style="background: linear-gradient(135deg, #001B44, #003B73);"></div>
+                    <div class="name">Midnight Blue</div>
+                </div>
+                <div class="theme-option" onclick="selectTheme(this, 'ocean')">
+                    <div class="color-preview" style="background: linear-gradient(135deg, #0c2340, #1a4a7a);"></div>
+                    <div class="name">Deep Ocean</div>
+                </div>
+                <div class="theme-option" onclick="selectTheme(this, 'neon')">
+                    <div class="color-preview" style="background: linear-gradient(135deg, #1a0033, #4a00e0);"></div>
+                    <div class="name">Neon Future</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <button class="danger-btn" onclick="logout()">🚪 Выйти из аккаунта</button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h3 id="modalTitle">Изменить</h3>
+            <p id="modalDescription">Введите новое значение</p>
+            <input type="text" id="modalInput" placeholder="Введите значение...">
+            <div class="modal-actions">
+                <button class="cancel" onclick="closeModal()">Отмена</button>
+                <button class="save" onclick="saveModal()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">✅ Изменения сохранены</div>
+
+    <style>
+        /* Switch */
+        .switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            transition: 0.3s ease;
+        }
+
+        .slider::before {
+            content: '';
+            position: absolute;
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s ease;
+        }
+
+        .switch input:checked + .slider {
+            background: linear-gradient(135deg, #00BFFF, #00E5FF);
+        }
+
+        .switch input:checked + .slider::before {
+            transform: translateX(20px);
+        }
+    </style>
+
+    <script>
+        let modalType = '';
+        let userData = {};
+
+        function loadUserData() {
+            const data = JSON.parse(localStorage.getItem('dechat_user'));
+            if (data) {
+                userData = data;
+                document.getElementById('profileName').textContent = data.username || 'John Doe';
+                document.getElementById('displayName').textContent = data.username || 'John Doe';
+                document.getElementById('profileUsername').textContent = '@' + (data.username || 'johndoe').toLowerCase().replace(/\s/g, '');
+                document.getElementById('profileAvatar').src = data.avatar || 'https://i.pravatar.cc/150?img=11';
+                if (data.email) {
+                    document.getElementById('displayEmail').textContent = data.email;
+                }
+            }
+        }
+
+        function openModal(type) {
+            modalType = type;
+            const modal = document.getElementById('modal');
+            const input = document.getElementById('modalInput');
+            const title = document.getElementById('modalTitle');
+            const description = document.getElementById('modalDescription');
+
+            switch(type) {
+                case 'name':
+                    title.textContent = 'Изменить имя';
+                    description.textContent = 'Введите новое имя пользователя';
+                    input.value = userData.username || '';
+                    input.placeholder = 'Ваше имя...';
+                    break;
+                case 'email':
+                    title.textContent = 'Изменить email';
+                    description.textContent = 'Введите новый email адрес';
+                    input.value = userData.email || '';
+                    input.placeholder = 'email@example.com';
+                    input.type = 'email';
+                    break;
+                case 'password':
+                    title.textContent = 'Изменить пароль';
+                    description.textContent = 'Введите новый пароль (минимум 6 символов)';
+                    input.value = '';
+                    input.placeholder = 'Новый пароль...';
+                    input.type = 'password';
+                    break;
+            }
+
+            modal.classList.add('active');
+            setTimeout(() => input.focus(), 100);
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+            document.getElementById('modalInput').type = 'text';
+        }
+
+        function saveModal() {
+            const input = document.getElementById('modalInput');
+            const value = input.value.trim();
+
+            if (!value) {
+                showToast('⚠️ Пожалуйста, заполните поле');
+                return;
+            }
+
+            switch(modalType) {
+                case 'name':
+                    userData.username = value;
+                    document.getElementById('profileName').textContent = value;
+                    document.getElementById('displayName').textContent = value;
+                    document.getElementById('profileUsername').textContent = '@' + value.toLowerCase().replace(/\s/g, '');
+                    break;
+                case 'email':
+                    if (!value.includes('@')) {
+                        showToast('⚠️ Пожалуйста, введите корректный email');
+                        return;
+                    }
+                    userData.email = value;
+                    document.getElementById('displayEmail').textContent = value;
+                    break;
+                case 'password':
+                    if (value.length < 6) {
+                        showToast('⚠️ Пароль должен быть минимум 6 символов');
+                        return;
+                    }
+                    showToast('✅ Пароль успешно изменен');
+                    break;
+            }
+
+            localStorage.setItem('dechat_user', JSON.stringify(userData));
+            closeModal();
+            showToast('✅ Изменения сохранены');
+        }
+
+        function changeAvatar() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        userData.avatar = event.target.result;
+                        document.getElementById('profileAvatar').src = event.target.result;
+                        localStorage.setItem('dechat_user', JSON.stringify(userData));
+                        showToast('✅ Аватар обновлен');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        }
+
+        function selectTheme(el, theme) {
+            document.querySelectorAll('.theme-option').forEach(opt => opt.classList.remove('active'));
+            el.classList.add('active');
+
+            const gradients = {
+                'midnight': 'linear-gradient(135deg, #001B44, #003B73)',
+                'ocean': 'linear-gradient(135deg, #0c2340, #1a4a7a)',
+                'neon': 'linear-gradient(135deg, #1a0033, #4a00e0)'
+            };
+
+            document.body.style.background = gradients[theme];
+            showToast('🎨 Тема изменена');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        function logout() {
+            if (confirm('Вы уверены, что хотите выйти?')) {
+                localStorage.removeItem('dechat_user');
+                window.location.href = 'reglog.html';
+            }
+        }
+
+        // Close modal on outside click
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // Enter key for modal
+        document.getElementById('modalInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') saveModal();
+            if (e.key === 'Escape') closeModal();
+        });
+
+        loadUserData();
+    </script>
+</body>
+</html>
