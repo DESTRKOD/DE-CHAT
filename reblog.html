@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DE-CHAT - Вход</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #001B44, #003B73);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        /* Particles Background */
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(0, 191, 255, 0.3);
+            border-radius: 50%;
+            animation: float-particle 15s infinite linear;
+        }
+
+        @keyframes float-particle {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 191, 255, 0.2);
+            border-radius: 30px;
+            padding: 40px 35px;
+            box-shadow: 0 0 60px rgba(0, 191, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 0 80px rgba(0, 191, 255, 0.2);
+            border-color: rgba(0, 191, 255, 0.4);
+        }
+
+        .logo {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 25px;
+            background: linear-gradient(135deg, #00BFFF, #00E5FF);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: 800;
+            color: #001B44;
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 191, 255, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(0, 191, 255, 0.6); }
+        }
+
+        .title {
+            text-align: center;
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #00BFFF, #00E5FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .toggle-container {
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 5px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 11px;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn.active {
+            background: rgba(0, 191, 255, 0.2);
+            color: white;
+            box-shadow: 0 0 20px rgba(0, 191, 255, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 14px 45px 14px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            color: white;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .input-wrapper input:focus {
+            border-color: rgba(0, 191, 255, 0.5);
+            box-shadow: 0 0 30px rgba(0, 191, 255, 0.05);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .input-wrapper input::placeholder {
+            color: rgba(255, 255, 255, 0.25);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 18px;
+        }
+
+        .input-wrapper input:focus + .input-icon {
+            color: rgba(0, 191, 255, 0.5);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #00BFFF, #00E5FF);
+            border: none;
+            border-radius: 14px;
+            color: #001B44;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 40px rgba(0, 191, 255, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(0, 27, 68, 0.2);
+            border-top-color: #001B44;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: shake 0.3s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 13px;
+        }
+
+        .form-footer a {
+            color: #00BFFF;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .form-footer a:hover {
+            color: #00E5FF;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 30px 20px;
+            }
+            
+            .title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles -->
+    <div id="particles"></div>
+
+    <div class="container">
+        <div class="card">
+            <div class="logo">D</div>
+            <h1 class="title">DE-CHAT</h1>
+            <p class="subtitle">Connect. Communicate. Create.</p>
+
+            <div class="toggle-container">
+                <button class="toggle-btn active" onclick="switchForm('login')">Вход</button>
+                <button class="toggle-btn" onclick="switchForm('register')">Регистрация</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Email</label>
+                    <div class="input-wrapper">
+                        <input type="email" id="loginEmail" placeholder="you@example.com" required>
+                        <span class="input-icon">📧</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Пароль</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="loginPassword" placeholder="••••••••" required>
+                        <span class="input-icon">🔒</span>
+                    </div>
+                </div>
+                <div class="error-message" id="loginError">Неверный email или пароль</div>
+                <button type="submit" class="submit-btn" id="loginBtn">Войти</button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="hidden" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>Имя пользователя</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="registerUsername" placeholder="John Doe" required>
+                        <span class="input-icon">👤</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <div class="input-wrapper">
+                        <input type="email" id="registerEmail" placeholder="you@example.com" required>
+                        <span class="input-icon">📧</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Пароль</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="registerPassword" placeholder="Минимум 6 символов" required minlength="6">
+                        <span class="input-icon">🔒</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Подтверждение пароля</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="registerConfirmPassword" placeholder="Повторите пароль" required>
+                        <span class="input-icon">✅</span>
+                    </div>
+                </div>
+                <div class="error-message" id="registerError">Пароли не совпадают</div>
+                <button type="submit" class="submit-btn" id="registerBtn">Создать аккаунт</button>
+            </form>
+
+            <div class="form-footer" id="formFooter">
+                <span id="footerText">Нет аккаунта?</span>
+                <a href="#" onclick="switchForm('register'); return false;">Создать</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (10 + Math.random() * 20) + 's';
+            particle.style.animationDelay = (Math.random() * 20) + 's';
+            particle.style.width = (2 + Math.random() * 4) + 'px';
+            particle.style.height = particle.style.width;
+            particlesContainer.appendChild(particle);
+        }
+
+        let currentForm = 'login';
+
+        function switchForm(form) {
+            currentForm = form;
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const loginBtn = document.querySelector('.toggle-btn:first-child');
+            const registerBtn = document.querySelector('.toggle-btn:last-child');
+            const footerText = document.getElementById('footerText');
+
+            if (form === 'login') {
+                loginForm.classList.remove('hidden');
+                registerForm.classList.add('hidden');
+                loginBtn.classList.add('active');
+                registerBtn.classList.remove('active');
+                footerText.textContent = 'Нет аккаунта? ';
+                document.getElementById('loginError').classList.remove('show');
+            } else {
+                loginForm.classList.add('hidden');
+                registerForm.classList.remove('hidden');
+                registerBtn.classList.add('active');
+                loginBtn.classList.remove('active');
+                footerText.textContent = 'Уже есть аккаунт? ';
+                document.getElementById('registerError').classList.remove('show');
+            }
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const btn = document.getElementById('loginBtn');
+            btn.innerHTML = '<span class="loading-spinner"></span> Вход...';
+            btn.disabled = true;
+
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            setTimeout(() => {
+                // Simulate login
+                if (email && password.length >= 6) {
+                    localStorage.setItem('dechat_user', JSON.stringify({
+                        username: 'John Doe',
+                        email: email,
+                        avatar: 'https://i.pravatar.cc/150?img=11'
+                    }));
+                    window.location.href = 'main.html';
+                } else {
+                    document.getElementById('loginError').classList.add('show');
+                    btn.innerHTML = 'Войти';
+                    btn.disabled = false;
+                }
+            }, 1500);
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const btn = document.getElementById('registerBtn');
+            btn.innerHTML = '<span class="loading-spinner"></span> Создание...';
+            btn.disabled = true;
+
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+
+            if (password !== confirmPassword) {
+                document.getElementById('registerError').classList.add('show');
+                btn.innerHTML = 'Создать аккаунт';
+                btn.disabled = false;
+                return;
+            }
+
+            setTimeout(() => {
+                const username = document.getElementById('registerUsername').value;
+                const email = document.getElementById('registerEmail').value;
+                
+                localStorage.setItem('dechat_user', JSON.stringify({
+                    username: username,
+                    email: email,
+                    avatar: 'https://i.pravatar.cc/150?img=' + Math.floor(Math.random() * 70)
+                }));
+                window.location.href = 'main.html';
+            }, 1500);
+        }
+
+        // Enter key support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                if (currentForm === 'login') {
+                    document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+                } else {
+                    document.getElementById('registerForm').dispatchEvent(new Event('submit'));
+                }
+            }
+        });
+    </script>
+</body>
+</html>
